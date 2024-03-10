@@ -1,0 +1,37 @@
+ provider "aws" {
+    region = "us-west-1"
+    profile = "configs"
+    shared_credentials_files = [ "/home/shashank/.aws/credentials" ]
+  
+}
+
+terraform {
+  backend "s3" {
+    bucket = "shashank-tf"
+    key = "terraform.tfstate"
+    dynamodb_table = "shashank-tf-dy"
+    region = "us-west-1"
+    profile = "configs"
+    shared_credentials_files = [ "/home/shashank/.aws/credentials" ]
+    
+  }
+}
+
+#create resources to add version to the file
+ #add user in aws 
+resource "aws_iam_user" "this_iam" {
+  name = "terraform-shank5293"
+  path = "/"
+
+  #add tag to the user
+  tags = {
+    name = "this user is created with the help of terraform"
+  }
+
+}
+
+#Add the access key to the User
+resource "aws_iam_access_key" "this_iam_access_key" {
+  user = aws_iam_user.this_iam.name
+
+} 

@@ -1,0 +1,17 @@
+#create rds DB using TF
+
+resource "aws_db_instance" "myrds" {
+  allocated_storage    = 10
+  db_name              = "mydb"
+  engine               = "mysql"
+  engine_version       = "8.0.35"
+  storage_type         = "gp2" 
+  instance_class       = "db.t3.micro"
+  username             = "admin"
+  password             = "passw0rd!123"
+  skip_final_snapshot  = true
+
+  tags = {
+    Name = "tf-rds"
+  }
+}
